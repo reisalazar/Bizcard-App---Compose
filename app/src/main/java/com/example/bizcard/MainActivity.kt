@@ -1,6 +1,7 @@
 package com.example.bizcard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -9,10 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,9 +60,67 @@ fun CreateBizCard() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CreateImageProfile()
-                Divider()
+                Divider(thickness = 4.dp)
+                CreateInfo()
+                Button(onClick = {
+                    Log.d("clicked", "Click Button")
+                }) {
+                    Text(
+                        text = "Portifolio",
+                        style = MaterialTheme.typography.button
+                    )
+                }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun Content() {
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(3.dp)
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            shape = RoundedCornerShape(corner = CornerSize(6.dp)),
+            border = BorderStroke(width = 2.dp, color = Color.Gray)) {
+            Portifolio(data = listOf("Project 1", "Project 2", "Project 3"))
+
+        }
+    }
+
+}
+
+@Composable
+fun Portifolio(data: List<String>) {
+    Text(text = "Projects go  here.")
+}
+
+@Composable
+private fun CreateInfo() {
+    Column(modifier = Modifier.padding(5.dp)) {
+        Text(
+            text = "Reinaldo Salazar",
+            style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.primaryVariant
+        )
+        Text(
+            text = "Android Compose Programmer",
+            modifier = Modifier.padding(3.dp)
+        )
+        Text(
+            text = "https://github.com/reisalazar",
+            modifier = Modifier.padding(3.dp),
+            style = MaterialTheme.typography.subtitle1
+        )
+
     }
 }
 
@@ -91,7 +147,7 @@ private fun CreateImageProfile(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     BizcardTheme {
