@@ -1,17 +1,20 @@
 package com.example.bizcard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CreateBizCard() {
+    val buttonClickedState = remember {
+        mutableStateOf(false)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,12 +69,19 @@ fun CreateBizCard() {
                 Divider(thickness = 4.dp)
                 CreateInfo()
                 Button(onClick = {
-                    Log.d("clicked", "Click Button")
-                }) {
+                    buttonClickedState.value = !buttonClickedState.value
+
+                }
+                ) {
                     Text(
                         text = "Portifolio",
                         style = MaterialTheme.typography.button
                     )
+                }
+                if (buttonClickedState.value) {
+                    Content()
+                } else {
+                    Box() {}
                 }
             }
         }
@@ -90,7 +103,8 @@ fun Content() {
                 .fillMaxWidth()
                 .fillMaxHeight(),
             shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-            border = BorderStroke(width = 2.dp, color = Color.Gray)) {
+            border = BorderStroke(width = 2.dp, color = Color.Gray)
+        ) {
             Portifolio(data = listOf("Project 1", "Project 2", "Project 3"))
 
         }
@@ -100,7 +114,11 @@ fun Content() {
 
 @Composable
 fun Portifolio(data: List<String>) {
-    Text(text = "Projects go  here.")
+    LazyColumn {
+        items(data) { item ->
+            Text(item)
+        }
+    }
 }
 
 @Composable
